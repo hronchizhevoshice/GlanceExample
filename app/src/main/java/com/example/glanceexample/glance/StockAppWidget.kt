@@ -12,6 +12,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
@@ -93,8 +94,13 @@ class StockAppWidget : GlanceAppWidget() {
     @Composable
     fun GlanceContent() {
         val stateCount by PriceDataRepo.currentPrice.collectAsState()
-        Small(stateCount)
+        val size = LocalSize.current
+        when (size) {
+            smallMode -> Small(stateCount)
+            mediumMode -> Medium(stateCount)
+        }
     }
+
     @Composable
     private fun Small(stateCount: Float) {
         Column(modifier = GlanceModifier
@@ -124,6 +130,4 @@ class StockAppWidget : GlanceAppWidget() {
             )
         }
     }
-
-
 }
